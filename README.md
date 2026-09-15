@@ -1,125 +1,126 @@
 # PuzzleCam — Gesture Capture
 
-App de fotomatón controlada por gestos manuales que corre completamente en el navegador. Sin instalación, sin backend, sin dependencias que instalar.
+Gesture-controlled photobooth app running entirely in the browser. Zero installation, no backend, no dependencies to install.
 
 ---
 
-## **DESCRIPCIÓN**
+## **DESCRIPTION**
 
-PuzzleCam captura una foto usando las manos como "marco", la convierte en un rompecabezas 3x3 con efecto fotográfico en blanco y negro, y permite armarlo usando gestos de pinch. Al completarlo, se guarda en una tira de fotos descargable.
-
----
-
-## **REQUISITOS DEL SISTEMA**
-
-- **Navegador:** Chrome o Edge (recomendado), Firefox
-- **Hardware:** Cámara web
-- **Conexión a internet:** Requerida para cargar el modelo de MediaPipe (~10MB, solo la primera vez)
-- **Servidor local:** Requerido para ejecutar la app (no se puede abrir como archivo directamente)
+PuzzleCam captures a photo using your hands as a frame, converts it into a 3x3 puzzle with a black & white photobooth effect, and lets you assemble it using pinch gestures. Once completed, it is saved to a downloadable photo strip.
 
 ---
 
-## **INSTALACIÓN Y CONFIGURACIÓN**
+## **SYSTEM REQUIREMENTS**
 
-### 1. Clonar el repositorio
+- **Browser:** Chrome or Edge (recommended), Firefox
+- **Hardware:** Webcam
+- **Internet connection:** Required to load the MediaPipe model (~10MB, first time only)
+- **Local server:** Required to run the app (cannot be opened directly as a file)
+
+---
+
+## **INSTALLATION AND SETUP**
+
+### 1. Clone the repository
 
 ```bash
 git clone https://github.com/mishu006/Puzzle.git
 cd Puzzle
 ```
 
-### 2. Levantar un servidor local
+### 2. Start a local server
 
-La app usa módulos ES y acceso a cámara, por lo que necesita correr sobre HTTP.
+The app uses ES modules and camera access, so it needs to run over HTTP.
 
-Instala la extensión [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) en VS Code y haz clic en **Go Live**.
+Install the [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) extension in VS Code and click **Go Live**.
 
-### 3. Abrir en el navegador
+### 3. Open in browser
 
 ```
 http://localhost:5500
 ```
 
-Permite el acceso a la cámara cuando el navegador lo solicite.
+Allow camera access when prompted by your browser.
 
 ---
 
-## **ESTRUCTURA DEL PROYECTO**
+## **PROJECT STRUCTURE**
 
 ```
 Puzzle/
-├── index.html        # Punto de entrada de la app
-├── app.js            # Lógica completa (tracking, puzzle, galería)
+├── index.html        # App entry point
+├── app.js            # Complete logic (tracking, puzzle, gallery)
 ├── css/
-│   └── styles.css    # Estilos y layout
+│   └── styles.css    # Styles and layout
 └── .gitignore
 ```
 
 ---
 
-## **GESTOS DE CONTROL**
+## **CONTROL GESTURES**
 
-| Gesto | Acción |
+| Gesture | Action |
 |---|---|
-| Ambas manos haciendo pinch | Congelar el área y comenzar cuenta regresiva |
-| Una mano haciendo pinch sobre una pieza | Arrastrar la pieza del puzzle |
-| Puño cerrado (mantener) | Guardar puzzle completado / Reiniciar tablero |
+| Both hands pinching | Freeze area and start countdown |
+| One hand pinching a piece | Drag puzzle piece |
+| Closed fist (hold) | Save completed puzzle / Reset board |
 
 ---
 
-## **LÓGICA DE LA APLICACIÓN**
+## **APPLICATION FLOW**
 
-1. Muestra ambas manos a la cámara y haz pinch para definir el recuadro de captura
-2. Mantén el pinch durante la cuenta regresiva — la foto se toma automáticamente
-3. La foto se divide en un puzzle 3x3 con filtro de fotomatón en blanco y negro
-4. Reorganiza las piezas con gestos de pinch
-5. Al completarlo, cierra el puño para guardar en la tira con animación de fragmentación
-6. Descarga la tira completa cuando tengas 3 puzzles guardados
-
----
-
-## **STACK TECNOLÓGICO**
-
-- **[MediaPipe Tasks Vision](https://developers.google.com/mediapipe)** `v0.10.14` — detección de landmarks de la mano
-- **Canvas 2D API** — renderizado, piezas del puzzle, efecto fotomatón
-- **JavaScript (ES Modules)** — sin frameworks
-- **CSS Custom Properties** — theming y layout
-
-Todas las dependencias externas se cargan por CDN. No se requiere ninguna instalación adicional.
+1. Show both hands to the camera and pinch to define the capture box
+2. Hold the pinch during the countdown — the photo will be taken automatically
+3. The photo is split into a 3x3 puzzle with a B&W photobooth filter
+4. Rearrange the pieces using pinch gestures
+5. When complete, close your fist to save to the strip with a shattering animation
+6. Download the full strip once you have saved 3 puzzles
 
 ---
 
-## **GUIA DE SOLUCION DE PROBLEMAS**
+## **TECH STACK**
 
-### **La cámara no enciende**
+- **[MediaPipe Tasks Vision](https://developers.google.com/mediapipe)** `v0.10.14` — hand landmark detection
+- **Canvas 2D API** — rendering, puzzle pieces, photobooth effect
+- **JavaScript (ES Modules)** — framework-free
+- **CSS Custom Properties** — theming and layout
 
-Verifica que ninguna otra aplicación (Teams, Zoom, Discord, etc.) esté usando la cámara en segundo plano.
-
-### **La app no carga el modelo**
-
-Verifica tu conexión a internet. El modelo de MediaPipe (~10MB) se descarga desde `storage.googleapis.com` y el runtime desde `cdn.jsdelivr.net`. Si alguno de esos dominios está bloqueado en tu red, la app no podrá iniciar.
-
-### **La app muestra pantalla negra**
-
-Asegúrate de estar abriendo la app desde un servidor local (HTTP), no directamente como archivo desde el explorador de archivos.
-
-### **El gesto de pinch no se detecta**
-
-Asegúrate de tener buena iluminación y que ambas manos sean visibles para la cámara. Acerca más el índice y el pulgar hasta que el punto amarillo en pantalla se active.
+All external dependencies are loaded via CDN. No additional installation required.
 
 ---
 
-## **COMPATIBILIDAD DE NAVEGADORES**
+## **TROUBLESHOOTING GUIDE**
 
-| Navegador | Soporte |
+### **Camera does not turn on**
+
+Ensure no other app (Teams, Zoom, Discord, etc.) is using the camera in the background.
+
+### **App fails to load the model**
+
+Check your internet connection. The MediaPipe model (~10MB) is fetched from `storage.googleapis.com` and the runtime from `cdn.jsdelivr.net`. If either domain is blocked on your network, the app cannot start.
+
+### **App shows a black screen**
+
+Make sure you are opening the app from a local web server (HTTP), not directly as a file from your file explorer.
+
+### **Pinch gesture is not detected**
+
+Ensure good lighting and that both hands are visible to the camera. Bring your index finger and thumb closer together until the status indicator activates.
+
+---
+
+## **BROWSER COMPATIBILITY**
+
+| Browser | Support |
 |---|---|
-| Chrome / Edge | Recomendado |
-| Firefox | Compatible |
-| Safari | Limitado (puede requerir permisos adicionales) |
-| Movil | Limitado (recomendado en escritorio) |
+| Chrome / Edge | Recommended |
+| Firefox | Supported |
+| Safari | Limited (may require additional permissions) |
+| Mobile | Limited (desktop recommended) |
 
 ---
 
-## **LICENCIA**
+## **LICENSE**
 
-MIT — libre para usar, modificar y compartir.
+MIT — free to use, modify, and share.
+
